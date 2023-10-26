@@ -1,0 +1,57 @@
+[tool.poetry]
+name = "cfbdf"
+version = "0.1.0"
+description = ""
+authors = ["Josh Odell <j01101111sh@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.11,<3.12"
+cfbd = "^4.5.1"
+
+[tool.poetry.group.dev.dependencies]
+pre-commit = "^3.5.0"
+pylint = "^3.0.2"
+flake8 = "^6.1.0"
+black = "^23.10.1"
+isort = "^5.12.0"
+bandit = "^1.7.5"
+pyupgrade = "^3.15.0"
+pytest = "^7.4.3"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tools.black]
+target-version = ['py310','py311','py312']
+
+[tool.isort]
+profile = 'black'
+
+[tool.pylint.main]
+extension-pkg-whitelist = ["pydantic"]
+disable=[
+    "R0801", # similar lines in 2 files
+    "R0902", # too many instance attributes
+    "R0913", # too many arguments
+    ]
+
+[tool.pylint.format]
+max-line-length = "88"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = "*.py"
+python_functions = "test_*"
+
+log_cli = true
+log_cli_level = "WARNING"
+log_cli_format = "%(asctime)s - %(levelname)s - %(name)s:%(lineno)d\n\t%(message)s"
+
+log_file_level = "DEBUG"
+log_file_format = "%(asctime)s - %(levelname)s - %(name)s:%(lineno)d\n\t%(message)s"
+
+[tool.coverage.report]
+omit = ["tests/*.py"]
+show_missing = true

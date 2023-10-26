@@ -1,0 +1,30 @@
+name: Test
+on: [pull_request]
+
+jobs:
+  Style:
+    name: "Check formatting"
+    runs-on: ubuntu-latest
+    env:
+      PY_VERSION: "3.11"
+    steps:
+      - uses: actions/checkout@v3
+        id: checkout
+      - name: Install Poetry
+        id: poetry
+        run: |
+          pipx install poetry
+          poetry config virtualenvs.in-project true
+          poetry config installer.parallel true
+      - name: Set up Python 3.11 on ubuntu-latest
+        id: python_setup
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+          cache: "poetry"
+      - name: Install dependencies
+        id: dependencies
+        run: poetry install --no-interaction --with dev
+      - name: Enforce code formatting
+        id: precommit
+        run: poetry run pre-commit run --all-files
